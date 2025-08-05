@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>estudioabc – Papéis</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Fonte Barlow para títulos de papel -->
+  <link href="https://fonts.googleapis.com/css?family=Barlow:800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: 'Helvetica Neue', Helvetica, Arial, 'Liberation Sans', sans-serif;
+      background: #FAFAFA;
+      color: #222;
+      margin: 0;
+      padding: 0;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    header {
+      background: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 60px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    }
+    .logo-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-width: 150px;
+      line-height: 1.12;
+    }
+    .logo-name {
+      font-family: Tahoma, Geneva, Verdana, sans-serif;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 1.45rem;
+      color: #222;
+      letter-spacing: 0.03em;
+      margin-bottom: 0;
+      text-align: center;
+      text-transform: none;
+    }
+    .logo-sub {
+      font-family: Tahoma, Geneva, Verdana, sans-serif;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 0.82rem;
+      color: #666;
+      letter-spacing: 0.09em;
+      text-transform: lowercase;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+    nav a {
+      margin-left: 30px;
+      font-weight: 500;
+      color: #555;
+      text-decoration: none;
+      font-size: 0.875rem;
+      transition: color .3s;
+      letter-spacing: .05em;
+    }
+    nav a:hover {
+      color: #F15A29;
+      text-decoration: underline;
+    }
+    /* Banner agora no mesmo tamanho da apresentação */
+    .banner-papeis-wrap {
+      width: 100vw;
+      height: 62vh;
+      min-height: 300px;
+      max-height: 420px;
+      position: relative;
+      overflow: hidden;
+      margin: 0 0 12px 0;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ecebe6;
+    }
+    .banner-papeis-img {
+      width: 100vw;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 48%;
+      display: block;
+      margin: 0;
+      border: none;
+      filter: brightness(0.96);
+    }
+    main {
+      max-width: 980px;
+      margin: 36px auto 56px auto;
+      padding: 0 20px;
+      text-align: left;
+    }
+    .section-title {
+      font-size: 1.5rem;
+      color: #222;
+      font-weight: 600;
+      margin: 34px 0 22px 0;
+      border-left: 4px solid #F15A29;
+      padding-left: 14px;
+    }
+    .long-text {
+      font-size: 1.03rem;
+      color: #323232;
+      margin-bottom: 18px;
+      line-height: 1.8;
+      max-width: 700px;
+    }
+    /* Grid de 2 colunas para os papéis */
+    .papers-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 38px 36px;
+      margin: 28px 0 50px 0;
+    }
+    @media (max-width: 770px) {
+      .papers-grid { grid-template-columns: 1fr; gap: 28px 0; }
+    }
+    .paper-card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.065);
+      padding: 22px 22px 18px 22px;
+      border: 1px solid #E3E4E8;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      min-width: 0;
+      position: relative;
+      transition: box-shadow .2s;
+    }
+    .paper-card:hover {
+      box-shadow: 0 8px 32px rgba(60,60,80,0.10);
+    }
+    .paper-title {
+      font-family: 'Barlow', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 1.18rem;
+      font-weight: 800;
+      color: #333;
+      margin: 0 0 7px 0;
+      letter-spacing: .02em;
+      text-align: left;
+    }
+    .paper-info-table {
+      width: 100%;
+      margin: 5px 0 10px 0;
+      border-collapse: collapse;
+      font-size: 0.98rem;
+      color: #555;
+    }
+    .paper-info-table td {
+      padding: 2px 12px 2px 0;
+      vertical-align: top;
+    }
+    .paper-desc {
+      color: #727272;
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+    }
+    .paper-img-label {
+      font-size: 0.92rem;
+      color: #888;
+      margin-top: 7px;
+      margin-bottom: 1px;
+      text-align: left;
+      display: block;
+    }
+    .paper-img-wrap {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      margin: 8px 0 5px 0;
+      position: relative;
+      cursor: zoom-in;
+    }
+    .paper-img-preview {
+      width: 100%;
+      height: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid #eee;
+      display: block;
+      box-shadow: 0 0.5px 2px rgba(40,40,40,0.06);
+      background: #f6f6f6;
+      transition: filter .2s;
+    }
+    .paper-img-preview:hover {
+      filter: brightness(0.97) blur(1.5px);
+    }
+    /* Modal (zoom ao clicar) */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      z-index: 2222;
+      left: 0; top: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(31, 32, 36, 0.82);
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-overlay.active {
+      display: flex;
+      animation: fadeIn .18s;
+    }
+    .modal-img {
+      max-width: 96vw;
+      max-height: 84vh;
+      border-radius: 12px;
+      background: #fff;
+      padding: 7px;
+      box-shadow: 0 8px 48px rgba(0,0,0,0.22);
+      object-fit: contain;
+      transition: filter .2s;
+    }
+    .modal-close {
+      position: absolute;
+      top: 24px; right: 38px;
+      font-size: 2.8rem;
+      color: #fff;
+      cursor: pointer;
+      z-index: 9999;
+      background: none;
+      border: none;
+      padding: 8px 12px;
+      font-family: inherit;
+      font-weight: bold;
+      line-height: 1;
+      opacity: .85;
+      transition: opacity .2s;
+    }
+    .modal-close:hover { opacity: 1; }
+    @media (max-width:900px) {
+      .banner-papeis-wrap { height: 32vh; min-height: 100px; max-height: 160px;}
+      main { margin: 32px 2vw; }
+      .papers-grid { gap: 17px 0; }
+      .section-title { font-size: 1.11rem; }
+    }
+    @media (max-width:700px) {
+      .paper-card { padding: 13px 7px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo-block">
+      <span class="logo-name">estudioabc</span>
+      <span class="logo-sub">fineart/photo</span>
+    </div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="apresentacao.html">Apresentação</a>
+      <a href="papeis.html">Papéis</a>
+      <a href="molduras.html">Molduras</a>
+      <a href="digitalizacao.html">Digitalização</a>
+      <a href="contato.html">Contato</a>
+    </nav>
+  </header>
+  <div class="banner-papeis-wrap">
+    <img class="banner-papeis-img" src="banner_papeis.jpg" alt="Banner papéis fine art">
+  </div>
+  <main>
+    <h2 class="section-title">Papéis Especiais</h2>
+    <div class="long-text">
+      O papel Fine Art é a melhor escolha para o artista que deseja imprimir sua obra de arte e garantir sua excelência e longevidade. É comum ter dúvidas sobre qual papel escolher, devido a grande variedade; então
+listamos a seguir alguns dos papéis mais
+utilizados aqui no estudio, descrevendo suas principais
+características para auxiliar a sua escolha.
+Lembrando que é fundamental consultar
+nosso impressor para receber as melhores
+indicações para o seu projeto.<br>
+      Clique para ampliar a foto e visualizar a textura de cada papel.
+    </div>
+    <div class="papers-grid">
+      <!-- 1 -->
+      <div class="paper-card">
+        <div class="paper-title">Hahnemühle Matt Fibre 200gsm</div>
+        <table class="paper-info-table">
+          <tr><td>Gramatura:</td><td>200gsm</td></tr>
+          <tr><td>Composição:</td><td>Fibras de celulose alfa</td></tr>
+          <tr><td>Superfície:</td><td>Fosco e com textura leve</td></tr>
+        </table>
+        <div class="paper-desc">
+          Papel de linha fotográfica, excelente entrada no universo Fine Art. Com acabamento fosco e leve textura, destaca-se por transmitir naturalidade e suavidade às imagens. Ótima opção para projetos mais simples que necessitam da qualidade da impressão fine art.
+        </div>
+        <span class="paper-img-label">Foto do papel:</span>
+        <span class="paper-img-wrap">
+          <img src="foto_papel_matt_fibre.jpg" alt="Foto Hahnemühle Matt Fibre 200gsm" class="paper-img-preview" tabindex="0">
+        </span>
+      </div>
+      <!-- 2 -->
+      <div class="paper-card">
+        <div class="paper-title">Canson Rag Photographique 310gsm</div>
+        <table class="paper-info-table">
+          <tr><td>Gramatura:</td><td>310gsm</td></tr>
+          <tr><td>Composição:</td><td>100% algodão</td></tr>
+          <tr><td>Superfície:</td><td>Fosco, liso e toque aveludado</td></tr>
+        </table>
+        <div class="paper-desc">
+          Textura suave, branco equilibrado e aspecto aveludado. Seu amplo gamut de cores permite reproduções com alta fidelidade, ideal para edições limitadas e projetos que demandam neutralidade cromática e acabamento premium.
+        </div>
+        <span class="paper-img-label">Foto do papel:</span>
+        <span class="paper-img-wrap">
+          <img src="foto_papel_canson_rag_photographique.jpg" alt="Foto Canson Rag Photographique 310gsm" class="paper-img-preview" tabindex="0">
+        </span>
+      </div>
+      <!-- 3 -->
+      <div class="paper-card">
+        <div class="paper-title">Hahnemühle Hemp 270gsm</div>
+        <table class="paper-info-table">
+          <tr><td>Gramatura:</td><td>270gsm</td></tr>
+          <tr><td>Composição:</td><td>60% cânhamo e 40% algodão</td></tr>
+          <tr><td>Superfície:</td><td>Fosco e com textura presente</td></tr>
+        </table>
+        <div class="paper-desc">
+          Papel com textura presente e um branco natural. Tem um amplo gamut de cores, ótimo para reprodução de imagens coloridas e PBs de baixo e médio contraste. Excelente opção para projetos que possuem um contexto ecológico 
+        </div>
+        <span class="paper-img-label">Foto do papel:</span>
+        <span class="paper-img-wrap">
+          <img src="foto_papel_hahnemuhle_hemp.jpg" alt="Foto Hahnemühle Hemp 270gsm" class="paper-img-preview" tabindex="0">
+        </span>
+      </div>
+      <!-- 4 -->
+      <div class="paper-card">
+        <div class="paper-title">Hahnemühle William Turner 310gsm</div>
+        <table class="paper-info-table">
+          <tr><td>Gramatura:</td><td>310gsm</td></tr>
+          <tr><td>Composição:</td><td>100% algodão</td></tr>
+          <tr><td>Superfície:</td><td>Fosco com alta textura</td></tr>
+        </table>
+        <div class="paper-desc">
+          Destaca-se pela sua textura ímpar que remete a papéis de aquarela. Este papel 100% algodão é ideal para reproduzir obras de arte feitas em aquarela e demais técnicas. Também é uma ótima opção para fotógrafos que querem explorar a textura de suas fotografias.
+        </div>
+        <span class="paper-img-label">Foto do papel:</span>
+        <span class="paper-img-wrap">
+          <img src="foto_papel_william_turner.jpg" alt="Foto Hahnemühle William Turner 310gsm" class="paper-img-preview" tabindex="0">
+        </span>
+      </div>
+      <!-- 5 -->
+      <div class="paper-card">
+        <div class="paper-title">Canson Infinity Platine Fibre Rag 310gsm</div>
+        <table class="paper-info-table">
+          <tr><td>Gramatura:</td><td>310gsm</td></tr>
+          <tr><td>Composição:</td><td>100% algodão</td></tr>
+          <tr><td>Superfície:</td><td>Semi-brilhante e textura suave</td></tr>
+        </table>
+        <div class="paper-desc">
+          Este é um papel extremamente especial, foi honrado com vários prêmios em
+reconhecimento à sua excelência. Com uma camada semi brilhante, é um papel extremamente indicado para imagens que possuem alto contraste e cores saturadas. Utilizado por grandes fotógrafos no mundo inteiro, essa é uma excelente escolha para um projeto expositivo.
+        </div>
+        <span class="paper-img-label">Foto do papel:</span>
+        <span class="paper-img-wrap">
+          <img src="foto_papel_platine_fibre_rag.jpg" alt="Foto Canson Platine Fibre Rag 310gsm" class="paper-img-preview" tabindex="0">
+        </span>
+      </div>
+      <!-- 6 -->
+      <div class="paper-card">
+        <div class="paper-title">Canson Infinity Photo HighGloss 315gsm</div>
+        <table class="paper-info-table">
+          <tr><td>Gramatura:</td><td>315gsm</td></tr>
+          <tr><td>Composição:</td><td>Celulose alfa</td></tr>
+          <tr><td>Superfície:</td><td>Brilhante e liso.
+        </table>
+        <div class="paper-desc">
+          Com sua superfície extremamente brilhante, esse papel é recomendado para fotografias e ilustrações digitais. Sua camada ultra branca permite uma reprodução extremamente equilibrada. Ótima opção para imagens de alto contraste e cores saturadas.
+        </div>
+        <span class="paper-img-label">Foto do papel:</span>
+        <span class="paper-img-wrap">
+          <img src="foto_papel_highgloss.jpg" alt="Foto Canson HighGloss 315gsm" class="paper-img-preview" tabindex="0">
+        </span>
+      </div>
+      <!-- 7 -->
+      <div class="paper-card">
+        <div class="paper-title">Canson Infinity PhotoArt ProCanvas 395gsm</div>
+        <table class="paper-info-table">
+          <tr><td>Peso:</td><td>385gsm</td></tr>
+          <tr><td>Composição:</td><td>Poliester e algodão</td></tr>
+          <tr><td>Superfície:</td><td>Fosco e texturizado</td></tr>
+          
+        </table>
+        <div class="paper-desc">
+          Diferente de todas as outras opções, o canvas é muito similar à tela de pintura utilizada nas belas artes. Com sua trama extremamente resiste ele pode ser tensionado em chassi de madeira e ter o mesmo visual das telas de pintura. Com superfície texturizada e acabamento fosco, ele é muito utilizado por fotógrafos e artistas plásticos que desejam reproduzir suas obras originais com alta fidelidade.
+        </div>
+        <span class="paper-img-label">Foto do papel:</span>
+        <span class="paper-img-wrap">
+          <img src="foto_papel_procanvas.jpg" alt="Foto Museum ProCanvas 385gsm" class="paper-img-preview" tabindex="0">
+        </span>
+      </div>
+      <!-- 8 - Adicione aqui seu oitavo papel, se desejar, seguindo o mesmo padrão -->
+    </div>
+  </main>
+  <div class="modal-overlay" id="modal-overlay">
+    <button class="modal-close" id="modal-close" title="Fechar">&times;</button>
+    <img src="" alt="Zoom papel fine art" class="modal-img" id="modal-img">
+  </div>
+  <footer>
+    &copy; 2025 estudioabc. Todos os direitos reservados.
+  </footer>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      var imgs = document.querySelectorAll('.paper-img-preview');
+      var modal = document.getElementById('modal-overlay');
+      var modalImg = document.getElementById('modal-img');
+      var modalClose = document.getElementById('modal-close');
+      imgs.forEach(img => {
+        img.addEventListener('click', function(){
+          modalImg.src = this.src;
+          modalImg.alt = this.alt;
+          modal.classList.add('active');
+        });
+        img.addEventListener('keypress', function(e){
+          if (e.key === "Enter" || e.key === " ") {
+            modalImg.src = this.src;
+            modalImg.alt = this.alt;
+            modal.classList.add('active');
+          }
+        });
+      });
+      modalClose.addEventListener('click', function() {
+        modal.classList.remove('active');
+        modalImg.src = "";
+      });
+      modal.addEventListener('click', function(e){
+        if (e.target === modal) {
+          modal.classList.remove('active');
+          modalImg.src = "";
+        }
+      });
+      document.addEventListener('keydown', function(e){
+        if(e.key === "Escape") {
+          modal.classList.remove('active');
+          modalImg.src = "";
+        }
+      });
+    });
+  </script>
+</body>
+</html>

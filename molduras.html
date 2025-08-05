@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Molduras Artesanais – Estudio ABC</title>
+  <meta name="description" content="Molduraria Fine Art premium com montagem conservativa, vidro museológico e atendimento personalizado." />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Banner padrão */
+    .banner-img-wrap {
+      width: 100vw;
+      height: 62vh;
+      min-height: 300px;
+      max-height: 420px;
+      position: relative;
+      overflow: hidden;
+      margin: 0 0 12px 0;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ecebe6;
+    }
+    .banner-img {
+      width: 100vw;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 48%;
+      display: block;
+      margin: 0;
+      border: none;
+      filter: brightness(0.96);
+    }
+
+    /* Container geral com alinhamento e largura fixos */
+    .content-container {
+      max-width: 1100px;
+      margin: 62px auto 38px auto;
+      padding: 0 3vw;
+      box-sizing: border-box;
+    }
+
+    /* Título e Subtítulo — borda laranja lateral (sem alterar largura) */
+    .main-feature-title {
+      font-size: 2.3rem;
+      font-weight: 750;
+      color: #1a1a1a;
+      margin: 0 0 7px 0;
+      line-height: 1.13;
+      letter-spacing: .012em;
+      text-align: left;
+      border-left: 4px solid #F15A29;
+      padding-left: 14px;
+      box-sizing: border-box;
+      display: inline-block;
+      max-width: 100%;
+    }
+    .main-feature-highlight {
+      font-size: 1.21rem;
+      color: #232323;
+      font-weight: 600;
+      margin: 0 0 24px 0;
+      line-height: 1.28;
+      letter-spacing: .009em;
+      text-align: left;
+      border-left: 4px solid #F15A29;
+      padding-left: 14px;
+      box-sizing: border-box;
+      display: inline-block;
+      max-width: 100%;
+    }
+
+    /* Corpo principal abaixo do título/subtítulo */
+    .main-feature-block {
+      border-bottom: 1px solid #e6e6e6;
+      padding-bottom: 40px;
+    }
+    .text-picture-wrapper {
+      display: flex;
+      flex-direction: row;
+      gap: 40px;
+      justify-content: flex-start;
+      align-items: flex-start;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .main-feature-text {
+      flex: 2 1 500px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 22px;
+      margin: 0 0 18px 0;
+      color: #111;
+      width: 100%;
+    }
+    .main-feature-desc {
+      font-size: 1.11rem;
+      font-weight: 400;
+      line-height: 1.85;
+      letter-spacing: .012em;
+      max-width: 760px;
+      width: 100%;
+      text-align: left;
+      margin: 0 0 14px 0;
+      color: #888;
+    }
+    .main-feature-img-vert {
+      flex: 1 1 300px;
+      min-width: 230px;
+      max-width: 320px;
+      height: 450px;
+      object-fit: cover;
+      margin: 0;
+      box-shadow: 0 2px 16px rgba(80,90,100,0.10);
+      border-radius: 0;
+      display: block;
+    }
+    .main-feature-img-horiz {
+      width: 100%;
+      max-width: 720px;
+      height: 235px;
+      object-fit: cover;
+      border-radius: 0;
+      margin: 28px auto 0 auto;
+      box-shadow: 0 2px 16px rgba(80,90,100,0.10);
+      display: block;
+      box-sizing: border-box;
+    }
+
+    /* Galeria centralizada com mesma largura */
+    .moldura-gallery-grid {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 45px 0 8px 0;
+      max-width: 1100px;
+      margin-left: auto;
+      margin-right: auto;
+      box-sizing: border-box;
+    }
+    .moldura-gallery-thumb {
+      width: 220px;
+      height: 160px;
+      object-fit: cover;
+      background: #f7f5f3;
+      border-radius: 0;
+      border: 1px solid #eee;
+      box-shadow: 0 2px 14px rgba(80,70,70,0.10);
+      transition: transform .13s, box-shadow .15s;
+      cursor: pointer;
+    }
+    .moldura-gallery-thumb:hover {
+      transform: scale(1.045);
+    }
+    .gallery-caption {
+      text-align: center;
+      color: #666;
+      font-size: .99rem;
+      margin-bottom: 32px;
+      max-width: 1100px;
+      margin-left: auto;
+      margin-right: auto;
+      box-sizing: border-box;
+    }
+
+    /* Modal */
+    #gallery-modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.8);
+      justify-content: center;
+      align-items: center;
+      z-index: 3000;
+    }
+    #gallery-modal.active {
+      display: flex;
+    }
+    #modal-image {
+      max-width: 90vw;
+      max-height: 85vh;
+      border-radius: 4px;
+      box-shadow: 0 0 30px rgba(0,0,0,0.7);
+    }
+    #modal-close, #modal-prev, #modal-next {
+      position: absolute;
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+      font-size: 2.5rem;
+      padding: 0;
+      user-select: none;
+    }
+    #modal-close {
+      top: 20px;
+      right: 20px;
+      font-size: 3rem;
+    }
+    #modal-prev {
+      top: 50%;
+      left: 20px;
+      transform: translateY(-50%);
+    }
+    #modal-next {
+      top: 50%;
+      right: 20px;
+      transform: translateY(-50%);
+    }
+
+    /* Responsividade */
+    @media (max-width:950px) {
+      .main-feature-title,
+      .main-feature-highlight {
+        padding-left: 10px;
+        border-left-width: 3px;
+      }
+      .main-feature-title {
+        font-size: 1.75rem;
+      }
+      .main-feature-highlight {
+        font-size: 1rem;
+        max-width: 95vw;
+      }
+      .content-container {
+        max-width: 95vw;
+      }
+      .main-feature-block {
+        padding: 0 2vw 24px 2vw;
+      }
+      .main-feature-img-vert {
+        max-width: 95vw;
+        height: 54vw;
+        min-width: 110px;
+        min-height: 130px;
+      }
+      .text-picture-wrapper {
+        flex-direction: column;
+        gap: 16px;
+      }
+      .moldura-gallery-grid {
+        max-width: 95vw;
+      }
+      .gallery-caption {
+        max-width: 95vw;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo-block">
+      <span class="logo-name">estudioabc</span>
+      <span class="logo-sub">fineart/photo</span>
+    </div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="apresentacao.html">Apresentação</a>
+      <a href="papeis.html">Papéis</a>
+      <a href="molduras.html" style="color:#F15A29; text-decoration:underline;">Molduras</a>
+      <a href="digitalizacao.html">Digitalização</a>
+      <a href="contato.html">Contato</a>
+    </nav>
+  </header>
+
+  <div class="banner-img-wrap">
+    <img src="banner_molduras.jpg" alt="Banner molduraria fine art" class="banner-img" id="banner-anim" />
+  </div>
+
+  <main class="content-container">
+
+    <div class="main-feature-title">
+      Molduraria Especializada
+    </div>
+    <div class="main-feature-highlight">
+      Atendimento próximo, processos técnicos rigorosos e possibilidades criadas sob medida – sua obra pronta para acervos, exposições e colecionadores.
+    </div>
+
+    <div class="main-feature-block">
+
+      <div class="text-picture-wrapper">
+        <div class="main-feature-text">
+          <div class="main-feature-desc">
+            Ao unir molduraria e impressão Fine Art, o Estudioabc garante um ciclo de produção integralmente controlado: da seleção dos materiais à montagem final. Trabalhamos em diálogo constante com artistas e colecionadores para definir juntos cada aspecto – perfil da moldura, medidas personalizadas, tipos de vidro (incluindo museológico anti-UV), passe-partout de algodão puro e técnicas conservativas.<br><br>
+            Nossa oficina executa cada montagem segundo protocolos museológicos: insumos certificados, montagem reversível, proteção UV, acabamento premium e certificado técnico opcional. O resultado é durabilidade, estética superior e absoluta confiança para circular em acervos, salões e galerias.
+          </div>
+        </div>
+        <img src="moldura_vertical.jpg" alt="Detalhe vertical de montagem de quadro Fine Art" class="main-feature-img-vert" />
+      </div>
+
+      <img src="moldura_horizontal.jpg" alt="Montagem horizontal Fine Art" class="main-feature-img-horiz" />
+
+    </div>
+
+    <span class="divider"></span>
+<br><br>
+    <h3 class="gallery-title" style="text-align: left; margin-left: 0;">Galeria: exemplos de montagem e detalhes artesanais</h3>
+    <div class="moldura-gallery-grid">
+      <img src="galeria_moldura_1.jpg" alt="Caixa em madeira natural com vidro museológico" class="moldura-gallery-thumb" tabindex="0" data-index="0" />
+      <img src="galeria_moldura_2.jpg" alt="Detalhe: folha gold e acabamento laqueado" class="moldura-gallery-thumb" tabindex="0" data-index="1" />
+      <img src="galeria_moldura_3.jpg" alt="Montagem com passe-partout algodão" class="moldura-gallery-thumb" tabindex="0" data-index="2" />
+      <img src="galeria_moldura_4.jpg" alt="Moldura preta, perfil clássico e vidro antirreflexo" class="moldura-gallery-thumb" tabindex="0" data-index="3" />
+      <img src="galeria_moldura_5.jpg" alt="Mix de molduras personalizadas contemporâneas" class="moldura-gallery-thumb" tabindex="0" data-index="4" />
+      <img src="galeria_moldura_6.jpg" alt="Obra emoldurada pronta para exposição" class="moldura-gallery-thumb" tabindex="0" data-index="5" />
+      <img src="galeria_moldura_7.jpg" alt="Novo detalhe de molduraria 1" class="moldura-gallery-thumb" tabindex="0" data-index="6" />
+      <img src="galeria_moldura_8.jpg" alt="Novo detalhe de molduraria 2" class="moldura-gallery-thumb" tabindex="0" data-index="7" />
+    </div>
+    <div class="gallery-caption">
+      <strong>Inspire-se:</strong> Todos esses formatos podem ser adaptados ao perfil da sua obra.<br />
+      Agende uma visita para ver de perto amostras e discutir um projeto sob medida.
+    </div>
+
+  </main>
+
+  <!-- Modal para ampliar imagens -->
+  <div id="gallery-modal" aria-hidden="true" role="dialog" aria-label="Galeria de imagens">
+    <button id="modal-close" aria-label="Fechar galeria">&times;</button>
+    <button id="modal-prev" aria-label="Imagem anterior">&#10094;</button>
+    <img id="modal-image" src="" alt="">
+    <button id="modal-next" aria-label="Próxima imagem">&#10095;</button>
+  </div>
+
+  <script>
+    (() => {
+      const modal = document.getElementById('gallery-modal');
+      const modalImage = document.getElementById('modal-image');
+      const modalClose = document.getElementById('modal-close');
+      const modalPrev = document.getElementById('modal-prev');
+      const modalNext = document.getElementById('modal-next');
+      const galleryImages = document.querySelectorAll('.moldura-gallery-thumb');
+      let currentIndex = 0;
+
+      function openModal(index) {
+        currentIndex = index;
+        modalImage.src = galleryImages[currentIndex].src;
+        modalImage.alt = galleryImages[currentIndex].alt;
+        modal.classList.add('active');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden'; // desabilita scroll do body
+        modalClose.focus();
+      }
+
+      function closeModal() {
+        modal.classList.remove('active');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = 'initial';
+        galleryImages[currentIndex].focus();
+      }
+
+      function showPrev() {
+        currentIndex = (currentIndex === 0) ? galleryImages.length - 1 : currentIndex - 1;
+        modalImage.src = galleryImages[currentIndex].src;
+        modalImage.alt = galleryImages[currentIndex].alt;
+      }
+
+      function showNext() {
+        currentIndex = (currentIndex === galleryImages.length - 1) ? 0 : currentIndex + 1;
+        modalImage.src = galleryImages[currentIndex].src;
+        modalImage.alt = galleryImages[currentIndex].alt;
+      }
+
+      galleryImages.forEach((img, idx) => {
+        img.addEventListener('click', () => openModal(idx));
+        img.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            openModal(idx);
+          }
+        });
+      });
+
+      modalClose.addEventListener('click', closeModal);
+      modalPrev.addEventListener('click', showPrev);
+      modalNext.addEventListener('click', showNext);
+
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          closeModal();
+        }
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (modal.classList.contains('active')) {
+          if (e.key === 'Escape') {
+            closeModal();
+          } else if (e.key === 'ArrowLeft') {
+            showPrev();
+          } else if (e.key === 'ArrowRight') {
+            showNext();
+          }
+        }
+      });
+    })();
+  </script>
+
+  <footer>
+    &copy; 2025 estudioabc. Todos os direitos reservados.
+  </footer>
+</body>
+</html>
